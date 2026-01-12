@@ -36,7 +36,7 @@ def all_tasks(db):
         cur.execute("SELECT * FROM tasks")
         return cur.fetchall()
     
-def get_task_id(db, id):
+def get_task_by_id(db, id):
     with sqlite3.connect(db) as con:
         cur = con.cursor()
         cur.execute("SELECT * FROM tasks WHERE id = ?", (id,))

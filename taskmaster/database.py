@@ -28,6 +28,7 @@ def add_task(db, title, description=None, status='todo', priority='medium', tags
             VALUES (?, ?, ?, ?, ?, ?)
         """, (title, description, status, priority, tags, due_date))
         
+        
 
 def all_tasks(db):
     with sqlite3.connect(db) as con:

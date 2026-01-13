@@ -11,6 +11,9 @@ def main():
     sub.add_parser("list", help="list something")
     get_id = sub.add_parser("get", help="gets item by task id")
     update = sub.add_parser("update", help="update task")
+    search = sub.add_parser("search", help="search tasks by keyword")
+
+
     
 
     # params data for add_task
@@ -25,7 +28,6 @@ def main():
     get_id.add_argument("id", help="task id required",type=int)
     
     # params data for updating
-
     # required update params
     update.add_argument("id", help="task id required", type=int)
 
@@ -34,6 +36,9 @@ def main():
     update.add_argument("--status", help="update status")
     update.add_argument("--priority", help="update priority")
     update.add_argument("--due_date", help="update due date")
+
+    # params for search
+    search.add_argument("keyword", help="keyword to search for")
 
     args = parser.parse_args()
 
@@ -70,6 +75,16 @@ def main():
                 priority=args.priority,
                 due_date=args.due_date,
             )
+        
+    elif args.command == "search":
+        results = search_tasks(db, args.keyword)
+
+        if not results:
+            print("no tasks found")
+        else:
+            for task in results:
+                print(task)
+
 
         
 

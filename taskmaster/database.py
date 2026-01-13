@@ -83,6 +83,10 @@ def update_task(
     
 
 def search_tasks(db, keyword):
+
+    # TODO: tags are stored as JSON strings — normalize or use native JSON later
+    # FIXME: search on tags not possible because of serialization
+
     with sqlite3.connect(db) as con:
         cur = con.cursor()
         search_term = f"%{keyword}%"  # sql wildcard term

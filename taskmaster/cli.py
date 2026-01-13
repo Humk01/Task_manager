@@ -1,5 +1,5 @@
 import argparse
-from taskmaster.database import add_task, all_tasks, get_task_by_id
+from taskmaster.database import add_task, all_tasks, get_task_by_id, update_task, search_tasks, delete_tasks
 from taskmaster.database import db
 import json
 
@@ -9,7 +9,8 @@ def main():
 
     add = sub.add_parser("add", help="adds something")
     sub.add_parser("list", help="list something")
-    get_id = sub.add_parser("get", help="helps get task id")
+    get_id = sub.add_parser("get", help="gets item by task id")
+    update = sub.add_parser("update", help="update task")
     
 
     # params data for add_task
@@ -22,13 +23,19 @@ def main():
 
     # params data for get_id
     get_id.add_argument("id", help="task id required",type=int)
-
     
+    # params data for updating
 
+    # required update params
+    update.add_argument("id", help="task id required", type=int)
+
+    # optional fields to update
+    update.add_argument("--title", help="update title")
+    update.add_argument("--status", help="update status")
+    update.add_argument("--priority", help="update priority")
+    update.add_argument("--due_date", help="update due date")
 
     args = parser.parse_args()
-
-    
 
 
     if args.command =="add":
@@ -53,10 +60,18 @@ def main():
     elif args.command == "get":
         item_id = get_task_by_id(db, id=args.id)
         print(item_id)
-        
 
-    def add_command():
-        pass
+    elif args.command == "update":
+        updated = update_task(
+                db,
+                task_id=args.id,
+                title=args.title,
+                status=args.status,
+                priority=args.priority,
+                due_date=args.due_date,
+            )
+
+        
 
 if __name__ == "__main__":
     main()
